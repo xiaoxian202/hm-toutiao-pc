@@ -1,7 +1,7 @@
 //初始化路由实例，导出
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Lonin from '@/views/login'
+import Login from '@/views/login'
 
 Vue.use(VueRouter)
 
@@ -9,7 +9,7 @@ Vue.use(VueRouter)
 const routes = [
     {
         path:"/login",
-        component:Lonin
+        component:Login
     }
 ]
 
