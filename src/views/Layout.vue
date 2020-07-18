@@ -6,39 +6,44 @@
             <!-- logo -->
             <div class="logo" :class="{'mini_logo':!isOpen}"></div>
             <!-- 导航 -->
+            <!-- router 是否使用 vue-router 的模式，
+            启用该模式会在激活导航时以 index 作为 path 进行路由跳转 
+            不写为false，写上为true
+            -->
             <el-menu
+                router 
                 style="border-right:none" 
                 :collapse=!isOpen 
                 :collapse-transition=isOpen
-                default-active="1" 
+                :default-active="$route.path"
                 background-color="#002233"
                 text-color="#fff" 
                 active-text-color="#ffd04b">
-                <el-menu-item index="1">
+                <el-menu-item index="/">
                     <i class="el-icon-s-home"></i>
                     <span slot="title">首页</span>
                 </el-menu-item>
-                <el-menu-item index="2">
+                <el-menu-item index="/article">
                     <i class="el-icon-document"></i>
                     <span slot="title">内容管理</span>
                 </el-menu-item>
-                <el-menu-item index="3">
+                <el-menu-item index="/image">
                     <i class="el-icon-picture"></i>
                     <span slot="title">素材管理</span>
                 </el-menu-item>
-                <el-menu-item index="4">
+                <el-menu-item index="/publish">
                     <i class="el-icon-s-promotion"></i>
                     <span slot="title">发布文章</span>
                 </el-menu-item>
-                <el-menu-item index="5">
+                <el-menu-item index="/comment">
                     <i class="el-icon-chat-dot-round"></i>
                     <span slot="title">评论管理</span>
                 </el-menu-item>
-                <el-menu-item index="6">
+                <el-menu-item index="/fans">
                     <i class="el-icon-present"></i>
                     <span slot="title">粉丝管理</span>
                 </el-menu-item>
-                <el-menu-item index="7">
+                <el-menu-item index="/setting">
                     <i class="el-icon-setting"></i>
                     <span slot="title">个人设置</span>
                 </el-menu-item>
@@ -55,7 +60,8 @@
                 <!-- 文字 -->
                 <span class="text">江苏传智播客科技教育有限公司</span>
                 <!-- 下拉列表 -->
-                <el-dropdown>
+                <!-- command:点击菜单项触发的事件回调 -->
+                <el-dropdown @command="clickItem">
                     <!-- 默认显示 -->
                     <span>
                         <!-- 头像 -->
@@ -65,8 +71,12 @@
                         <i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-                        <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+                        <!--原因： click时间没触发，此时是组件并没有支持click -->
+                        <!--想法： 把clickc事件绑定到组件最后生成的dom上 -->
+                        <!-- 实现：在事件后加上事件修饰符 .native 给组件根标签绑定原生事件 -->
+                        <!-- @click.native="setting"   @click.native="logout"-->
+                        <el-dropdown-item command="setting" icon="el-icon-setting">个人设置</el-dropdown-item>
+                        <el-dropdown-item command="logout" icon="el-icon-unlock">退出登录</el-dropdown-item>
 
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -92,13 +102,33 @@ export default {
             user:{
                 name:'',
                 photo:''
-            }
+            },
         }
     },
     // 组件初始化的时候，需要从本地拿出数据
     created() {
         const {name,photo} = auth.getUser()
         this.user = {name,photo}
+    },
+    methods:{
+        setting() {
+            this.$router.push('/setting')
+        },
+        logout() {
+            // 1.清除用户信息
+            // 2.跳转到登录页面
+            auth.delUser()
+            this.$router.push('/login')
+        },
+        // 点击任何一个下拉选项都会触发的函数
+        // 注意：绑定该函数的时候不能带括号 需要接受默认传参
+        clickItem(command) {
+            //需要知道点击的是哪个选项，然后去做对应的业务
+            // command是你点击的选项，选项上command属性的值
+            // 当你command=setting其实你调用setting函数
+            // 当你command=logout其实你调用logout函数
+            this[command]()
+        }
     }
     
 }
