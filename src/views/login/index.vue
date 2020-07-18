@@ -26,6 +26,8 @@
 </template>
 
 <script>
+// 导入本地用户信息相关函数
+import auth from '@/utils/auth.js'
 export default {
     name:'page-login',
     data() {
@@ -70,8 +72,12 @@ export default {
                     //登录
                     this.$http.post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations',this.loginForm)
                     .then((res) => {
+                        // res.data表示返回后台所有信息
                         // console.log(res.data);
-                        // 成功跳转到首页
+                        // 成功保存用户信息
+                        auth.setUser(res.data.data)
+
+                        // 成功跳转到首页 先保存在跳转
                         this.$router.push({
                             path:'/'
                         })

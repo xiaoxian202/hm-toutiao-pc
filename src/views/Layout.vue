@@ -59,9 +59,9 @@
                     <!-- 默认显示 -->
                     <span>
                         <!-- 头像 -->
-                        <img class="head" src="../assets/avatar.jpg" alt="">
+                        <img class="head" :src="user.photo" alt="">
                         <!-- 用户 -->
-                        <span class="name">我自汪洋</span>
+                        <span class="name">{{user.name}}</span>
                         <i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
@@ -81,12 +81,24 @@
 </template>
 
 <script>
+// 导入auth模块
+import auth from '@/utils/auth.js'
 export default {
     name:'layout',
     data() {
         return {
-            isOpen:true
+            isOpen:true,
+            // 用户名称，用户头像
+            user:{
+                name:'',
+                photo:''
+            }
         }
+    },
+    // 组件初始化的时候，需要从本地拿出数据
+    created() {
+        const {name,photo} = auth.getUser()
+        this.user = {name,photo}
     }
     
 }
