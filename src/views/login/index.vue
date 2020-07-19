@@ -66,26 +66,43 @@ export default {
     methods:{
         login() {
             //整体表单校验
-            this.$refs.loginForm.validate((valid) => {
+            this.$refs.loginForm.validate(async (valid) => {
                 //valid代表整体校验是否成功 是布尔值
                 if(valid) {
-                    //登录
-                    this.$http.post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations',this.loginForm)
-                    .then((res) => {
-                        // res.data表示返回后台所有信息
-                        // console.log(res.data);
-                        // 成功保存用户信息
-                        auth.setUser(res.data.data)
+                    // //登录
+                    // this.$http.post('authorizations',this.loginForm)
+                    // .then((res) => {
+                    //     // res.data表示返回后台所有信息
+                    //     // console.log(res.data);
+                    //     // 成功保存用户信息
+                    //     auth.setUser(res.data.data)
 
-                        // 成功跳转到首页 先保存在跳转
+                    //     // 成功跳转到首页 先保存在跳转
+                    //     this.$router.push({
+                    //         path:'/'
+                    //     })
+                    // })
+                    // .catch((err) => {
+                    //     //失败，提示手机号或验证码错误
+                    //     this.$message.error('手机号或者验证码错误');
+                    // })
+                    // ----------------------------------------------------
+
+                    // axios是基于Promise封装的，post、get..都是Promise实例对象
+                    // async函数await用法
+                    // 当某段代码可能会出现报错出现异常，捕获这段代码的异常，进而去进行异常处理
+                    // 使用try{ 可能报错的代码片段 }catch(e){ 对异常进行处理代码 } 异常捕获和异常处理
+                    try {
+                        // 理想情况
+                        const res = await this.$http.post('authorizations',this.loginForm)
+                        auth.setUser(res.data.data)
                         this.$router.push({
                             path:'/'
                         })
-                    })
-                    .catch((err) => {
-                        //失败，提示手机号或验证码错误
-                        this.$message.error('手机号或者验证码错误');
-                    })
+                    } catch (error) {
+                        // tey中的代码出现异常会执行catch
+                        this.$message.error('手机号或者验证码错误')
+                    }
                 }
             })
         }

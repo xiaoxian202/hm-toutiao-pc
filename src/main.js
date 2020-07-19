@@ -14,8 +14,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 文件夹下，index.js,index.vue,index.json都是索引文件，默认会
 import router from '@/router'
 
-//导入axios
-import Axios from 'axios'
+//导入自己配置axios
+import Axios from '@/api'
 //挂载到全局
 Vue.prototype.$http = Axios
 
