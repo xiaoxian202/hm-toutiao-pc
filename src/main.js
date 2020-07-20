@@ -19,6 +19,11 @@ import Axios from '@/api'
 //挂载到全局
 Vue.prototype.$http = Axios
 
+// 导入自己的插件
+import myPlugin from "@/plugin"
+// 注册
+Vue.use(myPlugin)
+
 //注册
 Vue.use(ElementUI);
 
