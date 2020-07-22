@@ -12,6 +12,10 @@ import Layout from '@/views/Layout.vue'
 import Welcome from '@/views/Welcome'
 // 内容管理
 import Article from '@/views/article'
+// 素材管理
+import Image from '@/views/image'
+// 发布文章
+import Publish from '@/views/publish'
 // 404
 import NoFound from '@/views/404'
 
@@ -36,7 +40,11 @@ const routes = [
             {
                 path:'/article',
                 component:Article
-            }
+            },
+            // 素材管理
+            {path:'/image',component:Image},
+            // 发布文章
+            {path:'/publish',component:Publish}
         ]
     },
     // 最后面，统配规则，404组件

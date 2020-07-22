@@ -24,6 +24,9 @@ import myPlugin from "@/plugin"
 // 注册
 Vue.use(myPlugin)
 
+// 导入自己的全局样式
+import '@/styles/index.less'
+
 //注册
 Vue.use(ElementUI);
 
