@@ -20,14 +20,10 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="频道">
-                    <el-select @change ="changeChannel" clearable v-model="reqParams.channel_id" placeholder="请选择">
-                        <el-option 
-                        v-for="item in channelOptions"
-                        :key="item.id"
-                        :label="item.name"
-                        :value="item.id">
-                        </el-option>
-                    </el-select>
+                    <!--插件 -->
+                    <!-- :value="reqParams.channel_id" @input="reqParams.channel_id=$event"
+                    是v-model的语法糖写法 -->
+                    <my-channel v-model="reqParams.channel_id"></my-channel>
                 </el-form-item>
                 <el-form-item label="日期">
                     <el-date-picker
@@ -83,13 +79,13 @@
                 total-总条数，默认一页10条
             -->
             <el-pagination 
-            style="margin-top:20px"
-            background
-            layout="prev, pager, next"
-            :page-size="reqParams.per_page"
-            :current-page="reqParams.page"
-            @current-change="changePage"
-            :total="total">
+                style="margin-top:20px"
+                background
+                layout="prev, pager, next"
+                :page-size="reqParams.per_page"
+                :current-page="reqParams.page"
+                @current-change="changePage"
+                :total="total">
             </el-pagination>
         </el-card>
     </div>
@@ -142,17 +138,10 @@ export default {
     },
     // 初始化拿到数据
     created() {
-        this.getChannelOptions()
         this.getArticles()
 
     },
     methods:{
-        // 获取频道数据
-        async getChannelOptions() {
-            const res = await this.$http.get('channels')
-            // console.log(res.data);
-            this.channelOptions = res.data.data.channels
-        },
         // 获取文章数据
         async getArticles() {
             const res = await this.$http.get('articles',{params:this.reqParams})
@@ -187,13 +176,6 @@ export default {
                 this.reqParams.begin_pubdate = null
                 this.reqParams.end_pubdate = null
             }
-        },
-        // 选择频道
-        // 清空select选择器时会触发该函数
-        changeChannel(val) {
-            // val:目前的选中值
-            // 如果清空，val是''会报错可以设置null
-            if(val==='') this.reqParams.channel_id = null
         },
         // 去编辑
         toEdit(id) {
