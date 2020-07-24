@@ -1,7 +1,8 @@
 <template>
   <div class="container-image">
         <div class="btn-img" @click="openDialog">
-            <img src="../assets/default.png" alt="">
+            <!-- 如果父组件传了图片就用value如果没传值就用默认图 -->
+            <img :src="value || previewImg" alt="">
         </div>
         <!-- 对话框 -->
         <el-dialog
@@ -11,7 +12,7 @@
                 <!-- tabs选项卡 
                 label选项卡标题-->
                 <el-tabs v-model="activeName" type="card">
-                    <el-tab-pane label="素材库" name="image">
+                    <el-tab-pane label="素材库" name="images">
                         <!-- 单选按钮 -->
                         <el-radio-group v-model="reqParams.collect" size="small" @change="toggelList">
                             <el-radio-button :label="false">全部</el-radio-button>
@@ -50,7 +51,7 @@
             </span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                <el-button type="primary" @click="confirmImg">确 定</el-button>
             </span>
         </el-dialog>
   </div>
@@ -59,14 +60,17 @@
 <script>
 // 导入auth.js
 import auth from '@/utils/auth.js'
+// 通过import导入封面预览图
+import img from '../assets/default.png'
 export default {
     name:'my-image',
+    props:['value'],
     data() {
         return {
             // 对话框默认隐藏
             dialogVisible:false,
             // 绑定值，选中选项卡的 name
-            activeName:"image",
+            activeName:"images",
             reqParams:{
                 // 是否收藏
                 collect:false,
@@ -84,7 +88,9 @@ export default {
             // 请求头
             headers:{Authorization:`Bearer ${auth.getUser().token}`},
             // 当前上传的图片地址
-            uploadImgUrl:null
+            uploadImgUrl:null,
+            // 封面预览图(默认图)
+            previewImg:img
         }
     },
     methods:{
@@ -93,6 +99,10 @@ export default {
             this.dialogVisible = true
             // 点击时获取列表
             this.getImage()
+            // 清除之前的操作
+            this.activeName = "images"
+            this.selectedImgUrl = null
+            this.uploadImgUrl = null
         },
         // 获取素材列表
         async getImage() {
@@ -119,7 +129,29 @@ export default {
         },
         // 上传图片成功后触发的事件
         uploadSuccess(response) {
+            // 预览
             this.uploadImgUrl = response.data.url
+        },
+        // 确定图片
+        confirmImg() {
+            if(this.activeName === 'images') {
+                // 激活素材库
+                if(!this.selectedImgUrl) return this.$message.warning("请选择一张图片")
+                // this.previewImg = this.selectedImgUrl
+                // 本地不需要保存，把选中图片传给父组件
+                this.$emit('input',this.selectedImgUrl)
+            }else {
+                // 激活上传图片
+                 if(!this.uploadImgUrl) return this.$message.warning("请选择一张图片")
+                //  this.previewImg = this.uploadImgUrl
+                // 把上传图片传给父组件
+                this.$emit('input',this.uploadImgUrl)
+            }
+            // 关闭对话框
+            this.dialogVisible = false
+            // 在这个位置需要去做其他组件的业务
+            // 在确认图片后，会触发my-image组件的自定义事件confirm
+            this.$emit('confirm')
         }
     }
 }
