@@ -58,6 +58,10 @@
         </el-form-item>
       </el-form>
     </el-card>
+    <!-- 测试使用 -->
+    <!-- :mySync="testSync" @update:mySync="testSync=$event"是:mySync.sync="testSync"语法糖写法 
+    @update:属性名 是固定写法-->
+    <!-- <my-prop-sync :mySync.sync="testSync"></my-prop-sync> -->
   </div>
 </template>
 
@@ -69,10 +73,14 @@ import 'quill/dist/quill.bubble.css'
 
 import { quillEditor } from 'vue-quill-editor'
 
+// 导入测试sync
+// import MyPropSync from '@/components/my-prop-sync'
+
 export default {
     name:'page-publish',
-    // 注册
-    components: {quillEditor},
+    // 注册 // 注册sync
+    components: {quillEditor/*,MyPropSync*/},
+   
     data() {
       // 校验封面数据
       const validCoverFn = (rule,value,callback) =>{
@@ -101,6 +109,8 @@ export default {
       return {
         // 测试数据
         // testImgUrl:null,
+        // 测试sync
+        // testSync:"sync",
         // 文章表单数据对象
         articleForm:{
           title:null,

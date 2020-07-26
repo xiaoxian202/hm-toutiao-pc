@@ -16,6 +16,12 @@ import Article from '@/views/article'
 import Image from '@/views/image'
 // 发布文章
 import Publish from '@/views/publish'
+// 评论管理
+import Comment from '@/views/comment'
+// 粉丝管理
+import Fans from '@/views/fans'
+// 个人设置
+import Setting from '@/views/setting'
 // 404
 import NoFound from '@/views/404'
 
@@ -44,7 +50,13 @@ const routes = [
             // 素材管理
             {path:'/image',component:Image},
             // 发布文章
-            {path:'/publish',component:Publish}
+            {path:'/publish',component:Publish},
+            // 评论管理
+            {path:'/comment',component:Comment},
+            // 粉丝管理
+            {path:'/fans',component:Fans},
+            // 个人设置
+            {path:'/setting',component:Setting}
         ]
     },
     // 最后面，统配规则，404组件
