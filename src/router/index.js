@@ -5,25 +5,25 @@ import VueRouter from 'vue-router'
 import auth from '@/utils/auth.js'
 
 //登录
-import Login from '@/views/login'
+const Login = () => import('@/views/login') 
 //首页
-import Layout from '@/views/Layout.vue'
+const Layout = () => import('@/views/Layout.vue') 
 // 子页欢迎
-import Welcome from '@/views/Welcome'
+const Welcome = () => import('@/views/Welcome')  
 // 内容管理
-import Article from '@/views/article'
+const Article = () => import('@/views/article')  
 // 素材管理
-import Image from '@/views/image'
+const Image = () => import('@/views/image')  
 // 发布文章
-import Publish from '@/views/publish'
+const Publish = () => import('@/views/publish')  
 // 评论管理
-import Comment from '@/views/comment'
+const Comment = () => import('@/views/comment')  
 // 粉丝管理
-import Fans from '@/views/fans'
+const Fans = () => import(/* webpackChunkName: "fans" */ '@/views/fans')  
 // 个人设置
-import Setting from '@/views/setting'
+const Setting = () => import('@/views/setting')  
 // 404
-import NoFound from '@/views/404'
+const NoFound = () => import('@/views/404') 
 
 Vue.use(VueRouter)
 
