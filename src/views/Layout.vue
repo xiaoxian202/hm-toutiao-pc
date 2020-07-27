@@ -93,6 +93,8 @@
 <script>
 // 导入auth模块
 import auth from '@/utils/auth.js'
+// 导入eventBus
+import eventBus from "@/eventBus"
 export default {
     name:'layout',
     data() {
@@ -109,6 +111,13 @@ export default {
     created() {
         const {name,photo} = auth.getUser()
         this.user = {name,photo}
+        // 绑定eventBus自定义事件
+        eventBus.$on('updateUserName',data => {
+            this.user.name = data
+        })
+         eventBus.$on('updateUserPhoto',data => {
+            this.user.photo = data
+        })
     },
     methods:{
         setting() {

@@ -6,7 +6,7 @@
             </div>
             <!-- 表格 -->
             <el-table :data="comments">
-                <el-table-column label="文章标题" prop="title"></el-table-column>
+                <el-table-column label="文章标题" prop="title" width="400px"></el-table-column>
                 <el-table-column label="总评论数" prop="total_comment_count"></el-table-column>
                 <el-table-column label="粉丝评论数" prop="fans_comment_count"></el-table-column>
                 <el-table-column label="状态" >
@@ -14,7 +14,7 @@
                         {{scope.row.comment_status ?'已打开':'已关闭'}}
                     </template>
                 </el-table-column>
-                <el-table-column label="操作">
+                <el-table-column label="操作" width="100px">
                     <template slot-scope="scope">
                         <el-button @click="toggleStatus(scope.row)" size="small" v-if="scope.row.comment_status" type="danger">关闭评论</el-button>
                         <el-button @click="toggleStatus(scope.row)" size="small" v-else type="success">打开评论</el-button>
