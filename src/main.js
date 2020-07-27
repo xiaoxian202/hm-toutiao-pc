@@ -32,8 +32,13 @@ Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 
+// 导入store
+import store from '@/store.js'
+
 new Vue({
   //挂载路由
   router,
-  render: h => h(App)
+  render: h => h(App),
+  // 挂载store
+  store
 }).$mount('#app')
