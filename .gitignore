@@ -1,8 +1,6 @@
 .DS_Store
 node_modules
-# /dist4
-#资源引入的路径前缀
-publicPath:'/'
+# /dist
 
 # local env files
 .env.local

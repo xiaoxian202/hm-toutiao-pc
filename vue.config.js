@@ -8,5 +8,7 @@ module.exports = {
       // key(包的名字):value(通过script标签引入后，暴露在全局的变量名)
       echarts: 'echarts'
     }
-  }
+  },
+  // 资源引入的路径前缀
+  publicPath:'./'
 }
